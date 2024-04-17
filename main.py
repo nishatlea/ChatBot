@@ -43,10 +43,10 @@ pinecone.create_index(
 
 pc = Pinecone(
     pinecone_api_key=os.getenv('PINECONE_API_KEY'),
-    index_name='my_index',
+    index_name='serverless-index',
     embedding=embeddings
 )
 
-index = Pinecone.from_documents(docs, embeddings, index_name='my_index')
-retriever = index.as_retriever(search_type='similarity', search_kwargs={"k": 2})
+# index = Pinecone.from_documents(docs, embeddings, index_name='serverless-index')
+# retriever = index.as_retriever(search_type='similarity', search_kwargs={"k": 2})
 
