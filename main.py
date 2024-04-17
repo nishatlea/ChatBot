@@ -24,29 +24,33 @@ embeddings = OpenAIEmbeddings(
     openai_api_key=openai_api_key
 )
 
-from langchain_pinecone import Pinecone
+# from langchain_pinecone import Pinecone
+# from langchain.vectorstores import Pinecone
+import pinecone
+from langchain_community.vectorstores import Pinecone
+
+# from pinecone import Pinecone
 
 environment = 'us-east-1'
 pinecone_api_key = os.getenv('PINECONE_API_KEY')
-pinecone = Pinecone(api_key=pinecone_api_key)
+# pinecone = Pinecone(api_key=pinecone_api_key)
 # indexes = pinecone.list_indexes()
 # print(indexes.names())
-pinecone.create_index(
-    name="serverless-index",
-    dimension=1536,
-    metric="cosine",
-    spec=ServerlessSpec(
-        cloud="aws",
-        region="us-east-1"
-    )
-)
+# pinecone.create_index(
+#     name="serverless-index",
+#     dimension=1536,
+#     metric="cosine",
+#     spec=ServerlessSpec(
+#         # cloud="aws",
+#         # region="us-east-1"
+#     )
+# )
 
 pc = Pinecone(
     pinecone_api_key=os.getenv('PINECONE_API_KEY'),
     index_name='serverless-index',
     embedding=embeddings
 )
-
-# index = Pinecone.from_documents(docs, embeddings, index_name='serverless-index')
+pinecone.init(api_key=pinecone_api_key,environment=environment)
+index = Pinecone.from_documents(docs, embeddings, index_name='serverless-index', namespace='myspace')
 # retriever = index.as_retriever(search_type='similarity', search_kwargs={"k": 2})
-
